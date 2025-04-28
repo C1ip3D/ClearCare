@@ -1,0 +1,76 @@
+{
+  "name": "clearcare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/scripts/server.js",
+  "type": "module",
+  "scripts": {
+    "build:dev": "webpack --mode development",
+    "build:prod": "webpack --mode production",
+    "app:node": "nodemon server.js",
+    "app:watch": "webpack --watch",
+    "app:electron": "electron .",
+    "app:package-mac": "electron-builder build --mac",
+    "app:package-win": "electron-builder build --win",
+    "app:package-linux": "electron-builder build --linux",
+    "app:package-all": "electron-builder build -mwl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C1ip3D/ClearCare.git"
+  },
+  "build": {
+    "appId": "com.clearcare.app",
+    "productName": "ClearCare",
+    "directories": {
+      "output": "dist"
+    },
+    "extraResources": [
+      {
+        "from": "node_modules/",
+        "to": "app/node_modules/"
+      }
+    ],
+    "files": [
+      "**/*",
+      "!node_modules/**/*",
+      ".env"
+    ],
+    "asarUnpack": [
+      "node_modules"
+    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.utilities",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist"
+    }
+  },
+  "author": "Avaneesh Shetti & Aditya Vijey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/C1ip3D/ClearCare/issues"
+  },
+  "homepage": "https://github.com/C1ip3D/ClearCare#readme",
+  "dependencies": {
+    "babel-loader": "^10.0.0",
+    "electron": "^35.2.1",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "path": "^0.12.7",
+    "sass": "^1.87.0"
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "dotenv": "^16.5.0",
+    "html-webpack-plugin": "^5.6.3",
+    "mini-css-extract-plugin": "^2.9.2",
+    "sass-loader": "^16.0.5",
+    "webpack": "^5.99.7",
+    "webpack-cli": "^6.0.1"
+  }
+}

@@ -1,0 +1,74 @@
+/*!*****************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/css/index.scss ***!
+  \*****************************************************************************************************************************************/
+/* Pure white for main background */
+/* Light gray for secondary backgrounds */
+/* Dark gray for primary text */
+/* Medium gray for secondary text */
+/* Accent Color */
+/* Soft blue for highlights and interactions */
+/* Additional Neutral Tones */
+/* Light border color */
+/* Subtle hover effect */
+/* Success, Warning, and Error States */
+/* Green for positive actions */
+/* Orange for warnings */
+/* Blue for informational messages */
+/* Light gray for disabled elements */
+body {
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  color: #333333;
+}
+
+header {
+  background-color: #3498db;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: #333;
+}
+
+nav a {
+  color: white;
+  padding: 14px 20px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1rem;
+}
+
+nav a:hover {
+  background-color: #ffffff;
+  color: black;
+}
+
+.hero {
+  font-size: 1.125rem;
+  margin: 20px 0;
+  color: #666666;
+}
+
+.cta-button {
+  background-color: #3498db;
+  color: white;
+  padding: 15px 30px;
+  text-decoration: none;
+  border-radius: 1.125rem;
+  margin-top: 20px;
+}
+
+.cta-button :hover {
+  background-color: #3498db, -10%;
+}
