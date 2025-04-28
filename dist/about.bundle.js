@@ -10,23 +10,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/css/index.scss":
+/***/ "./src/css/about.scss":
 /*!****************************!*\
-  !*** ./src/css/index.scss ***!
+  !*** ./src/css/about.scss ***!
   \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://clearcare/./src/css/index.scss?");
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://clearcare/./src/css/about.scss?");
 
 /***/ }),
 
-/***/ "./src/scripts/index.js":
+/***/ "./src/scripts/about.js":
 /*!******************************!*\
-  !*** ./src/scripts/index.js ***!
+  !*** ./src/scripts/about.js ***!
   \******************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _css_index_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/index.scss */ \"./src/css/index.scss\");\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('DOM Content Loaded');\n  console.log('API available:', !!window.api);\n  document.querySelectorAll('nav a').forEach(link => {\n    link.addEventListener('click', e => {\n      e.preventDefault();\n      const page = e.target.getAttribute('href');\n      window.api.navigate(page);\n    });\n  });\n});\n\n//# sourceURL=webpack://clearcare/./src/scripts/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _css_about_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/about.scss */ \"./src/css/about.scss\");\n\n\n//# sourceURL=webpack://clearcare/./src/scripts/about.js?");
 
 /***/ })
 
@@ -73,8 +73,8 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _css
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	__webpack_require__("./src/scripts/index.js");
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/css/index.scss");
+/******/ 	__webpack_require__("./src/scripts/about.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/css/about.scss");
 /******/ 	
 /******/ })()
 ;

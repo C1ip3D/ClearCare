@@ -1,7 +1,5 @@
 import pkg from 'electron';
-const { app, BrowserWindow, ipcMain, dialog, systemPreferences } = pkg;
-import dotenv from 'dotenv';
-import express from 'express';
+const { app, BrowserWindow, ipcMain } = pkg;
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -9,77 +7,50 @@ import chokidar from 'chokidar';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const expressApp = express();
 const isDev = process.env.NODE_ENV !== 'production';
-const port = process.env.PORT || 3000;
-const win = new BrowserWindow({
-  width: 800,
-  height: 600,
-  webPreferences: {
-    nodeIntegration: true,
-    contextIsolation: false,
-  },
-});
-
-
-// Express setup
-expressApp.use(
-  express.static(path.join(__dirname, 'dist'), {
-    setHeaders: (res, path) => {
-      if (path.endsWith('.css')) {
-        res.setHeader('Content-Type', 'text/css');
-      }
-    },
-  })
-);
-
-expressApp.use((req, res, next) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'"
-  );
-  next();
-});
-
-expressApp.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'pages', 'index.html'));
-});
-
-// Start Express server
-expressApp.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
 
 // Electron setup
 let mainWindow;
 
 function createWindow() {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
-      preload: path.join(__dirname, '/src/scripts/functions.js'),
+      preload: path.join(__dirname, 'functions.js'),
+      webSecurity: true,
     },
   });
 
   mainWindow.maximize();
-  mainWindow.loadURL(`http://localhost:${port}`);
-  mainWindow.loadFile(path.join(__dirname, '../../dist/index.html'));
+  mainWindow.loadFile(path.join(__dirname, '../../dist/index.html'), {
+    baseURLForDataURL: `file://${path.join(__dirname, '../../dist')}/`,
+  });
+
+  if (isDev) {
+    mainWindow.webContents.openDevTools();
+  }
 }
 
 if (isDev) {
   const watcher = chokidar.watch(
-    [path.join(__dirname, 'pages'), path.join(__dirname, 'src/css')],
+    [
+      path.join(__dirname, '../../dist'),
+      path.join(__dirname, '../../src/pages'),
+      path.join(__dirname, '../../src/css'),
+      path.join(__dirname, '../../src/scripts'),
+    ],
     {
-      ignored: /(^|[\/\\])\../, // ignore dotfiles
+      ignored: /(^|[\/\\])\../,
       persistent: true,
     }
   );
 
-  watcher.on('change', (path) => {
+  watcher.on('change', (filepath) => {
     if (mainWindow) {
+      console.log('Reloading due to changes in:', filepath);
       mainWindow.reload();
     }
   });
@@ -96,5 +67,13 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
+  }
+});
+
+// IPC handlers
+
+ipcMain.on('navigate', (event, page) => {
+  if (mainWindow) {
+    mainWindow.loadFile(path.join(__dirname, '../../dist', page));
   }
 });

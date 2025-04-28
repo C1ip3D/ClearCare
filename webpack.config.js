@@ -17,6 +17,8 @@ const multipleHtmlPlugins = htmlPageNames.map((name) => {
   });
 });
 
+
+
 export default {
   entry: {
     index: ['./src/scripts/index.js', './src/css/index.scss'],
@@ -28,7 +30,7 @@ export default {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    publicPath: '/',
+    publicPath: './',
   },
   module: {
     rules: [
