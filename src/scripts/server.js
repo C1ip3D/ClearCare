@@ -12,10 +12,15 @@ const __dirname = dirname(__filename);
 const expressApp = express();
 const isDev = process.env.NODE_ENV !== 'production';
 const port = process.env.PORT || 3000;
+const win = new BrowserWindow({
+  width: 800,
+  height: 600,
+  webPreferences: {
+    nodeIntegration: true,
+    contextIsolation: false,
+  },
+});
 
-
-
-dotenv.config({ path: path.join(__dirname, '.env') });
 
 // Express setup
 expressApp.use(

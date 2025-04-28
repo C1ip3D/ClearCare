@@ -13,6 +13,7 @@ const multipleHtmlPlugins = htmlPageNames.map((name) => {
     template: `./src/pages/${name}.html`,
     filename: `${name}.html`,
     chunks: [`${name}`],
+    inject: true,
   });
 });
 
