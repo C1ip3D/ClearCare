@@ -13,6 +13,7 @@
 /* Success, Warning, and Error States */
 /* Green for positive actions */
 /* Orange for warnings */
+/* Red for error states */
 /* Blue for informational messages */
 /* Light gray for disabled elements */
 body {
@@ -67,6 +68,9 @@ nav a:hover {
   text-decoration: none;
   border-radius: 1.125rem;
   margin-top: 20px;
+  display: block;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .cta-button :hover {

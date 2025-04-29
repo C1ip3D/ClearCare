@@ -34,9 +34,9 @@ function createWindow() {
   });
 
   // Dev Tools (Turned it off for a bit)
-  // if (isDev) {
-  //   mainWindow.webContents.openDevTools();
-  // }
+  if (isDev) {
+    mainWindow.webContents.openDevTools();
+  }
 }
 
 if (isDev) {
