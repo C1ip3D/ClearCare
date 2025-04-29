@@ -52,6 +52,10 @@ nav a:hover {
     text-decoration: none;
     border-radius: $text-lg;
     margin-top: 20px;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    
 }
 
 .cta-button :hover {

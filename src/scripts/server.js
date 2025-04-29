@@ -10,6 +10,7 @@ const __dirname = dirname(__filename);
 const isDev = process.env.NODE_ENV !== 'production';
 
 // Electron setup
+
 let mainWindow;
 
 function createWindow() {
@@ -22,16 +23,20 @@ function createWindow() {
       preload: path.join(__dirname, 'functions.js'),
       webSecurity: true,
     },
+    autoHideMenuBar: true,
   });
+
+  mainWindow.setMenu(null);
 
   mainWindow.maximize();
   mainWindow.loadFile(path.join(__dirname, '../../dist/index.html'), {
     baseURLForDataURL: `file://${path.join(__dirname, '../../dist')}/`,
   });
 
-  if (isDev) {
-    mainWindow.webContents.openDevTools();
-  }
+  // Dev Tools (Turned it off for a bit)
+  // if (isDev) {
+  //   mainWindow.webContents.openDevTools();
+  // }
 }
 
 if (isDev) {
