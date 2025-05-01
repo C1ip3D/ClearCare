@@ -3,11 +3,12 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import { register } from 'module';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const htmlPageNames = ['about'];
+const htmlPageNames = ['login', 'register'];
 const multipleHtmlPlugins = htmlPageNames.map((name) => {
   return new HtmlWebpackPlugin({
     template: `./src/pages/${name}.html`,
@@ -22,8 +23,11 @@ const multipleHtmlPlugins = htmlPageNames.map((name) => {
 export default {
   entry: {
     index: ['./src/scripts/index.js', './src/css/index.scss'],
-    ...(fs.existsSync('./src/scripts/about.js') && {
-      about: ['./src/scripts/about.js', './src/css/about.scss'],
+    ...(fs.existsSync('./src/scripts/login.js') && {
+      login: ['./src/scripts/login.js', './src/css/login.scss'],
+    }),
+    ...(fs.existsSync('./src/scripts/register.js') && {
+      register: ['./src/scripts/register.js', './src/css/register.scss'],
     }),
   },
   output: {

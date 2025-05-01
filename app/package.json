@@ -59,6 +59,7 @@
   "dependencies": {
     "babel-loader": "^10.0.0",
     "electron": "^35.2.1",
+    "firebase": "^11.6.1",
     "nodemon": "^3.1.10",
     "path": "^0.12.7",
     "sass": "^1.87.0"

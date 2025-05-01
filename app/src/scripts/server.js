@@ -5,9 +5,29 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import chokidar from 'chokidar';
 
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
+import { getFirestore } from 'firebase/firestore';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyBRfxzXK_YUobZ_y_BItGLW7873cQY98_s',
+  authDomain: 'clearcare-e970b.firebaseapp.com',
+  databaseURL: 'https://clearcare-e970b-default-rtdb.firebaseio.com',
+  projectId: 'clearcare-e970b',
+  storageBucket: 'clearcare-e970b.firebasestorage.app',
+  messagingSenderId: '655113682690',
+  appId: '1:655113682690:web:75165396850c7735ce0c1b',
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const database = getDatabase(firebaseApp);
+const firestore = getFirestore(firebaseApp);
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const isDev = process.env.NODE_ENV !== 'production';
+const isDev = process.env.ENVIRONMENT !== 'production';
 
 // Electron setup
 
@@ -19,8 +39,8 @@ function createWindow() {
     height: 600,
     webPreferences: {
       contextIsolation: true,
-      nodeIntegration: false,
-      preload: path.join(__dirname, 'functions.js'),
+      nodeIntegration: true,
+      preload: path.join(__dirname, './functions.js'),
       webSecurity: true,
     },
     autoHideMenuBar: true,
@@ -80,5 +100,18 @@ app.on('activate', () => {
 ipcMain.on('navigate', (event, page) => {
   if (mainWindow) {
     mainWindow.loadFile(path.join(__dirname, '../../dist', page));
+  }
+});
+
+ipcMain.handle('login', async (event, credentials) => {
+  try {
+    const userCredential = await auth.signInWithEmailAndPassword(
+      credentials.email,
+      credentials.password
+    );
+    return { success: true, user: userCredential.user };
+  } catch (error) {
+    console.error('Login error:', error);
+    return { success: false, message: error.message };
   }
 });
