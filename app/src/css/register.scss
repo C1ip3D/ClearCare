@@ -1,5 +1,4 @@
 @use './theme.scss' as *;
-@use 'saas:color';
 
 body {
   font-family: $font-stack;
@@ -9,7 +8,7 @@ body {
   background: linear-gradient(
     -400deg,
     $accent-color,
-    color.adjust($accent-color, $lightness: 30%)
+    adjust-color($accent-color, $lightness: 30%)
   );
   color: $text-primary;
   display: flex;
@@ -149,7 +148,7 @@ main {
   background: linear-gradient(
     135deg,
     $accent-color,
-    color.adjust($accent-color, $lightness: 30%),
+    adjust-color($accent-color, $lightness: 30%),
   );
   color: white;
   display: flex;
