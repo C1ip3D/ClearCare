@@ -8,8 +8,24 @@ import { register } from 'module';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const htmlPageNames = ['login', 'register'];
-const multipleHtmlPlugins = htmlPageNames.map((name) => {
+const pageNames = ['login', 'register', 'forgot-password'];
+
+function generateEntries() {
+  const baseEntry = {
+    index: ['./src/scripts/index.js', './src/css/index.scss'],
+  };
+
+  const additionalEntries = pageNames.reduce((entries, name) => {
+    if (fs.existsSync(`./src/scripts/${name}.js`)) {
+      entries[name] = [`./src/scripts/${name}.js`, `./src/css/${name}.scss`];
+    }
+    return entries;
+  }, {});
+
+  return { ...baseEntry, ...additionalEntries };
+}
+
+const multipleHtmlPlugins = pageNames.map((name) => {
   return new HtmlWebpackPlugin({
     template: `./src/pages/${name}.html`,
     filename: `${name}.html`,
@@ -18,18 +34,8 @@ const multipleHtmlPlugins = htmlPageNames.map((name) => {
   });
 });
 
-
-
 export default {
-  entry: {
-    index: ['./src/scripts/index.js', './src/css/index.scss'],
-    ...(fs.existsSync('./src/scripts/login.js') && {
-      login: ['./src/scripts/login.js', './src/css/login.scss'],
-    }),
-    ...(fs.existsSync('./src/scripts/register.js') && {
-      register: ['./src/scripts/register.js', './src/css/register.scss'],
-    }),
-  },
+  entry: generateEntries(),
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -63,7 +69,7 @@ export default {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'styles/[name].css',
+      filename: '[name].css',
     }),
     new HtmlWebpackPlugin({
       template: './src/pages/index.html',

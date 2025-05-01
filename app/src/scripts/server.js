@@ -6,7 +6,12 @@ import path from 'path';
 import chokidar from 'chokidar';
 
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
 
@@ -105,13 +110,32 @@ ipcMain.on('navigate', (event, page) => {
 
 ipcMain.handle('login', async (event, credentials) => {
   try {
-    const userCredential = await auth.signInWithEmailAndPassword(
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
       credentials.email,
       credentials.password
     );
     return { success: true, user: userCredential.user };
   } catch (error) {
     console.error('Login error:', error);
+    return { success: false, message: error.message };
+  }
+});
+
+ipcMain.handle('register', async (event, credentials, displayName) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      credentials.email,
+      credentials.password
+    );
+
+    await updateProfile(userCredential.user, {
+      displayName: displayName,
+    });
+    return { success: true, user: userCredential.user };
+  } catch (error) {
+    console.error('Registration error:', error);
     return { success: false, message: error.message };
   }
 });

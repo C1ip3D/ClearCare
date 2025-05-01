@@ -16,17 +16,22 @@ form.onsubmit = async (e) => {
   e.preventDefault();
 
   const formData = new FormData(form);
-  const credentials = Object.fromEntries(formData);
+  const credentials = {
+    email: formData.get('email'),
+    password: formData.get('password'),
+  };
+  const displayName = formData.get('displayName');
+
   try {
-    const response = await window.api.login(credentials);
+    const response = await window.api.register(credentials, displayName);
     if (response.success) {
       window.api.navigate('index');
     } else {
-      alert(response.message || 'Login failed. Please try again.');
+      alert(response.message || 'Registration failed. Please try again.');
     }
   } catch (error) {
-    console.error('Login error:', error);
-    alert('An error occurred during login. Please try again later.');
+    console.error('Registration error:', error);
+    alert('An error occurred during registration. Please try again later.');
   }
 };
 

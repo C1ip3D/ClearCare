@@ -1,11 +1,16 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
-    navigate: (page) => {
-        ipcRenderer.send('navigate', page);
-    },
+  navigate: (page) => {
+    ipcRenderer.send('navigate', page);
+  },
 
-    login: (credentials) => {
-        return ipcRenderer.invoke('login', credentials);
-    }
+  login: (credentials) => {
+    return ipcRenderer.invoke('login', credentials);
+  },
+
+  register: (credentials, displayName) => {
+    console.log('Registering with:', { credentials, displayName });
+    return ipcRenderer.invoke('register', credentials, displayName);
+  },
 });
