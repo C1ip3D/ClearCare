@@ -139,3 +139,13 @@ ipcMain.handle('register', async (event, credentials, displayName) => {
     return { success: false, message: error.message };
   }
 });
+
+ipcMain.handle('forgotPassword', async (event, email) => {
+  try {
+    await auth.sendPasswordResetEmail(email);
+    return { success: true };
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    return { success: false, message: error.message };
+  }
+});

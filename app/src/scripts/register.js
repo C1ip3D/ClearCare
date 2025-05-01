@@ -26,9 +26,7 @@ form.onsubmit = async (e) => {
     const response = await window.api.register(credentials, displayName);
     if (response.success) {
       window.api.navigate('index');
-    } else {
-      alert(response.message || 'Registration failed. Please try again.');
-    }
+    } 
   } catch (error) {
     console.error('Registration error:', error);
     alert('An error occurred during registration. Please try again later.');

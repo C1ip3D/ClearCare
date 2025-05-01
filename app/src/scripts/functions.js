@@ -13,4 +13,8 @@ contextBridge.exposeInMainWorld('api', {
     console.log('Registering with:', { credentials, displayName });
     return ipcRenderer.invoke('register', credentials, displayName);
   },
+
+  forgotPassword: (email) => {
+    return ipcRenderer.invoke('forgotPassword', email);
+  },
 });
