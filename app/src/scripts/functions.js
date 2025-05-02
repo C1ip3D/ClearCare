@@ -21,9 +21,4 @@ contextBridge.exposeInMainWorld('api', {
   serializer: async (object) => {
     return JSON.stringify(object);
   },
-
-
-  deserializer: async (jsonString) => {
-    return JSON.parse(jsonString);
-  }
 });

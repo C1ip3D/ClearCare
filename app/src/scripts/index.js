@@ -1,7 +1,6 @@
 import '../css/index.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
-
   document.querySelectorAll('nav a').forEach((link) => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -10,5 +9,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
-
-

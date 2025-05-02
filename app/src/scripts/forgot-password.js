@@ -24,10 +24,15 @@ form.onsubmit = async (e) => {
       alert('Password reset link sent to your email.');
       window.api.navigate('login');
     } else {
-      alert(response.message || 'Failed to send password reset link. Please try again.');
+      alert(
+        response.message ||
+          'Failed to send password reset link. Please try again.'
+      );
     }
   } catch (error) {
     console.error('Forgot password error:', error);
-    alert('An error occurred while processing your request. Please try again later.');
+    alert(
+      'An error occurred while processing your request. Please try again later.'
+    );
   }
-}
+};
