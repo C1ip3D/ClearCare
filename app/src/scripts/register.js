@@ -25,20 +25,10 @@ form.onsubmit = async (e) => {
   try {
     const response = await window.api.register(credentials, displayName);
     if (response.success) {
-      window.api.navigate('index');
+      window.api.navigate('index.html');
     } 
   } catch (error) {
     console.error('Registration error:', error);
     alert('An error occurred during registration. Please try again later.');
   }
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const page = e.target.getAttribute('href');
-      window.api.navigate(page);
-    });
-  });
-});

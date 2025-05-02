@@ -47,6 +47,8 @@ function createWindow() {
       nodeIntegration: true,
       preload: path.join(__dirname, './functions.js'),
       webSecurity: true,
+      spellcheck: false,
+      autoplayPolicy: 'document-user-activation-required',
     },
     autoHideMenuBar: true,
   });
@@ -57,11 +59,6 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, '../../dist/index.html'), {
     baseURLForDataURL: `file://${path.join(__dirname, '../../dist')}/`,
   });
-
-  // Dev Tools (Turned it off for a bit)
-  if (isDev) {
-    mainWindow.webContents.openDevTools();
-  }
 }
 
 if (isDev) {
@@ -80,7 +77,6 @@ if (isDev) {
 
   watcher.on('change', (filepath) => {
     if (mainWindow) {
-      console.log('Reloading due to changes in:', filepath);
       mainWindow.reload();
     }
   });
@@ -104,48 +100,51 @@ app.on('activate', () => {
 
 ipcMain.on('navigate', (event, page) => {
   if (mainWindow) {
-    mainWindow.loadFile(path.join(__dirname, '../../dist', page));
+    if (page.includes('.html')) {
+      mainWindow.loadFile(path.join(__dirname, '../../dist', `${page}`));
+    } else {
+      mainWindow.loadFile(path.join(__dirname, '../../dist', `${page}.html`));
+    }
   }
 });
 
 ipcMain.handle('login', async (event, credentials) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      credentials.email,
-      credentials.password
-    );
-    return { success: true, user: userCredential.user };
+    const { email, password } = JSON.parse(credentials);
+    await signInWithEmailAndPassword(auth, email, password);
+    return { success: true };
   } catch (error) {
     console.error('Login error:', error);
-    return { success: false, message: error.message };
+    return { success: false };
   }
 });
 
 ipcMain.handle('register', async (event, credentials, displayName) => {
   try {
+    const { email, password } = JSON.parse(credentials);
     const userCredential = await createUserWithEmailAndPassword(
       auth,
-      credentials.email,
-      credentials.password
+      email,
+      password
     );
 
     await updateProfile(userCredential.user, {
       displayName: displayName,
     });
-    return { success: true, user: userCredential.user };
+
+    return { success: true };
   } catch (error) {
     console.error('Registration error:', error);
-    return { success: false, message: error.message };
+    return { success: false };
   }
 });
 
 ipcMain.handle('forgotPassword', async (event, email) => {
   try {
-    await auth.sendPasswordResetEmail(email);
+    await sendPasswordResetEmail(auth, email);
     return { success: true };
   } catch (error) {
     console.error('Forgot password error:', error);
-    return { success: false, message: error.message };
+    return { success: false };
   }
 });

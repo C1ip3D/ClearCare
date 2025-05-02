@@ -17,4 +17,13 @@ contextBridge.exposeInMainWorld('api', {
   forgotPassword: (email) => {
     return ipcRenderer.invoke('forgotPassword', email);
   },
+
+  serializer: async (object) => {
+    return JSON.stringify(object);
+  },
+
+
+  deserializer: async (jsonString) => {
+    return JSON.parse(jsonString);
+  }
 });
