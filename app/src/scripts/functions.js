@@ -21,4 +21,9 @@ contextBridge.exposeInMainWorld('api', {
   serializer: async (object) => {
     return JSON.stringify(object);
   },
+
+  simplifyText: async (text) => {
+    const response = await ipcRenderer.invoke('simplify-text', text);
+    return response;
+  },
 });

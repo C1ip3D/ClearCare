@@ -4,6 +4,11 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import chokidar from 'chokidar';
+import OpenAI from 'openai';
+import dotenv from 'dotenv';
+
+dotenv.config();
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 import { initializeApp } from 'firebase/app';
 import {
@@ -146,5 +151,25 @@ ipcMain.handle('forgotPassword', async (event, email) => {
   } catch (error) {
     console.error('Forgot password error:', error);
     return { success: false };
+  }
+});
+
+ipcMain.handle('simplify-text', async (event, inputText) => {
+  try {
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4',
+      messages: [
+        {
+          role: 'user',
+          content: `Simplify this medical explanation for a middle schooler:\n"${inputText}"`,
+        },
+      ],
+      temperature: 0.7,
+    });
+
+    return { success: true, simplified: completion.choices[0].message.content };
+  } catch (err) {
+    console.error('OpenAI error:', err);
+    return { success: false, message: 'Simplification failed' };
   }
 });
