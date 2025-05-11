@@ -1,4 +1,5 @@
-@use './theme.scss' as *;
+@use 'sass:color';
+@use './_theme' as *;
 
 body {
   font-family: Arial, sans-serif;
@@ -7,16 +8,35 @@ body {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
 }
 
-.input-section, .output-section, .glossary-section {
+.main-content {
+  grid-column: 1;
+}
+
+.input-section,
+.output-section,
+.glossary-section {
   margin-bottom: 20px;
 }
 
-textarea, .result-text {
+.input-section,
+.output-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+textarea,
+.result-text {
   width: 100%;
   padding: 12px;
   border: 1px solid $border-color;
@@ -26,10 +46,16 @@ textarea, .result-text {
   background: white;
 }
 
+textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
 .result-text {
   min-height: 100px;
   max-height: 300px;
   overflow-y: auto;
+  margin-top: 10px;
 }
 
 #output {
@@ -42,7 +68,7 @@ textarea, .result-text {
 .button-group {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
+  margin: 15px 0;
 }
 
 button {
@@ -52,17 +78,23 @@ button {
   background-color: $accent-color;
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
 
   &:hover {
-    background-color: darken($accent-color, 10%);
+    background-color: color.adjust($accent-color, $lightness: -10%);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 2px dotted $accent-color;
+  color: $accent-color;
+  border-bottom: 1px dashed currentColor;
   cursor: help;
 
   &:hover::after {
@@ -76,17 +108,21 @@ button {
     color: white;
     border-radius: 4px;
     font-size: 14px;
-    white-space: nowrap;
+    white-space: normal;
+    max-width: 300px;
     z-index: 1000;
-    margin-bottom: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 }
 
 .glossary-section {
+  grid-column: 2;
   background: white;
-  padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
 
   h3 {
     margin-bottom: 15px;
@@ -97,17 +133,82 @@ button {
 .glossary-item {
   display: flex;
   margin-bottom: 10px;
-  padding: 8px;
+  padding: 12px 15px;
   border-bottom: 1px solid $border-color;
 
+  &:last-child {
+    border-bottom: none;
+  }
+
   .term {
-    font-weight: bold;
-    min-width: 150px;
+    display: block;
+    font-weight: 600;
     color: $accent-color;
+    margin-bottom: 4px;
   }
 
   .definition {
-    flex: 1;
+    display: block;
+    font-size: 14px;
     color: $text-secondary;
+    line-height: 1.4;
+  }
+}
+
+.glossary-header {
+  padding: 15px;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+    color: $text-primary;
+  }
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  padding: 0 10px;
+
+  &.collapsed {
+    transform: rotate(-90deg);
+  }
+}
+
+.glossary-content {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  transition: max-height 0.3s ease-out;
+
+  &.collapsed {
+    max-height: 0;
+    overflow: hidden;
+  }
+}
+
+.glossary-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-bottom: 1px solid $border-color;
+
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-color;
+    }
   }
 }

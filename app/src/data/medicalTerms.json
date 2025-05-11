@@ -1,0 +1,127 @@
+{
+  "terms": [
+    {
+      "term": "abdominal",
+      "definition": "Relating to the abdomen (belly), the part of the body containing the digestive organs"
+    },
+    {
+      "term": "anemia",
+      "definition": "A condition where you don't have enough healthy red blood cells to carry adequate oxygen to your body's tissues"
+    },
+    {
+      "term": "angina",
+      "definition": "Chest pain caused by reduced blood flow to the heart"
+    },
+    {
+      "term": "arrhythmia",
+      "definition": "A problem with the rate or rhythm of your heartbeat"
+    },
+    {
+      "term": "arthritis",
+      "definition": "Inflammation of one or more joints causing pain and stiffness"
+    },
+    {
+      "term": "asthma",
+      "definition": "A condition that affects your airways and can make breathing difficult"
+    },
+    {
+      "term": "benign",
+      "definition": "Not harmful in effect; in particular, (of a tumor) not cancerous"
+    },
+    {
+      "term": "biopsy",
+      "definition": "An examination of tissue removed from a living body to discover the presence or cause of disease"
+    },
+    {
+      "term": "bronchitis",
+      "definition": "Inflammation of the bronchi (airways) in the lungs"
+    },
+    {
+      "term": "carcinoma",
+      "definition": "A type of cancer that starts in cells that make up the skin or the tissue lining organs"
+    },
+    {
+      "term": "cardiac",
+      "definition": "Related to the heart"
+    },
+    {
+      "term": "chronic",
+      "definition": "Persisting for a long time or constantly recurring"
+    },
+    {
+      "term": "diabetes",
+      "definition": "A disease in which the body's ability to produce or respond to insulin is impaired"
+    },
+    {
+      "term": "diagnosis",
+      "definition": "The identification of an illness or condition by examining symptoms"
+    },
+    {
+      "term": "edema",
+      "definition": "Swelling caused by excess fluid trapped in body tissues"
+    },
+    {
+      "term": "fracture",
+      "definition": "A break in a bone"
+    },
+    {
+      "term": "hemorrhage",
+      "definition": "An escape of blood from a ruptured blood vessel"
+    },
+    {
+      "term": "hypertension",
+      "definition": "High blood pressure"
+    },
+    {
+      "term": "hypertensive",
+      "definition": "Having abnormally high blood pressure"
+    },
+    {
+      "term": "hypotension",
+      "definition": "Abnormally low blood pressure"
+    },
+    {
+      "term": "inflammation",
+      "definition": "A localized physical condition where part of the body becomes reddened, swollen, and painful"
+    },
+    {
+      "term": "lesion",
+      "definition": "A region of tissue that has suffered damage through injury or disease"
+    },
+    {
+      "term": "malignant",
+      "definition": "A severe and progressively worsening disease, typically cancerous"
+    },
+    {
+      "term": "nausea",
+      "definition": "A feeling of sickness with an inclination to vomit"
+    },
+    {
+      "term": "necrosis",
+      "definition": "The death of body tissue due to disease or injury"
+    },
+    {
+      "term": "osteoporosis",
+      "definition": "A medical condition in which the bones become brittle and fragile"
+    },
+    {
+      "term": "pneumonia",
+      "definition": "Inflammation of the lungs caused by infection"
+    },
+    {
+      "term": "prognosis",
+      "definition": "The likely course of a medical condition"
+    },
+    {
+      "term": "syndrome",
+      "definition": "A group of symptoms that consistently occur together"
+    },
+    {
+      "term": "systolic",
+      "definition": "Relating to the contraction of the heart"
+    }
+  ],
+  "lastUpdated": "2023-11-11",
+  "version": "1.1",
+  "source": "Medical Dictionary and Clinical Terms Database"
+}

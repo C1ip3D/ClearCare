@@ -1,32 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ClearCare - Simplify Medical Text</title>
-<script defer src="./index.bundle.js"></script><link href="./index.css" rel="stylesheet"></head>
-<body>
-  <div class="container">
-    <h1>Simplify Medical Text</h1>
-    <div class="input-section">
-      <textarea id="medicalInput" rows="6" placeholder="Paste complex medical text here..."></textarea>
-      <div class="button-group">
-        <button id="simplifyBtn">Simplify</button>
-        <button id="speakBtn" title="Read text aloud">🔊 Read Aloud</button>
-        <button id="stopSpeakBtn" title="Stop reading">🔇 Stop</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClearCare - Medical Text Simplifier</title>
+  <script defer src="./index.bundle.js"></script><link href="./index.css" rel="stylesheet"></head>
+  <body>
+    <div class="container">
+      <div class="main-content">
+        <div class="input-section">
+          <h2>Medical Text Simplifier</h2>
+          <textarea
+            id="medicalInput"
+            placeholder="Enter complex medical text here..."
+          ></textarea>
+          <div class="button-group">
+            <button id="simplifyBtn">Simplify Text</button>
+            <button id="speakBtn">🔊 Read Aloud</button>
+            <button id="stopSpeakBtn">🔇 Stop</button>
+          </div>
+        </div>
+
+        <div class="output-section">
+          <h3>Simplified Text</h3>
+          <div id="output" class="result-text"></div>
+        </div>
+      </div>
+
+      <div class="glossary-section">
+        <div class="glossary-header">
+          <h3>Medical Terms</h3>
+          <button id="toggleGlossary" class="toggle-btn">▼</button>
+        </div>
+        <div id="glossaryContent" class="glossary-content">
+          <div class="glossary-controls">
+            <input
+              type="text"
+              id="glossarySearch"
+              placeholder="Search medical terms..."
+            />
+          </div>
+          <div id="glossary" class="glossary-items"></div>
+        </div>
       </div>
     </div>
-    
-    <div class="output-section">
-      <h3>Simplified Text:</h3>
-      <div id="output" class="result-text"></div>
-    </div>
-
-    <div class="glossary-section">
-      <h3>Medical Terms Glossary</h3>
-      <div id="glossary"></div>
-    </div>
-  </div>
-</body>
+  </body>
 </html>
-

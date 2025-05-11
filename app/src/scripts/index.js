@@ -1,65 +1,71 @@
 import '../css/index.scss';
+import medicalTerms from '../data/medicalTerms.json';
 
 let speechSynthesis = window.speechSynthesis;
 let currentUtterance = null;
+let glossaryTerms = medicalTerms.terms;
 
-// Update glossary to include more variations of terms
-const glossary = {
-  'hypertensive': 'relating to high blood pressure',
-  'hypertension': 'high blood pressure - when blood pushes too hard against blood vessel walls',
-  'hypotensive': 'relating to low blood pressure',
-  'hypo': 'low or under',
-  'hyper': 'high or over',
-  'myocardial infarction': 'heart attack - when blood flow to part of the heart is blocked',
-  'dyspnea': 'difficulty breathing or shortness of breath',
-  'tachycardia': 'unusually fast heart rate',
-  'bradycardia': 'unusually slow heart rate',
-  'edema': 'swelling caused by excess fluid in body tissues',
-  'arrhythmia': 'irregular heartbeat',
-  'hyperlipidemia': 'high levels of fat particles in the blood',
-  'thrombosis': 'blood clot formation inside a blood vessel',
-  'angina': 'chest pain due to reduced blood flow to the heart'
-};
+function updateGlossaryUI(searchTerm = '') {
+  const glossaryDiv = document.getElementById('glossary');
+  glossaryDiv.innerHTML = '';
+
+  glossaryTerms
+    .filter(
+      (item) =>
+        item.term.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.definition.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .forEach((item) => {
+      const termDiv = document.createElement('div');
+      termDiv.className = 'glossary-item';
+      termDiv.innerHTML = `
+        <span class="term">${item.term}</span>
+        <span class="definition">${item.definition}</span>
+      `;
+      glossaryDiv.appendChild(termDiv);
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Navigation setup
-  document.querySelectorAll('nav a').forEach((link) => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const page = e.target.getAttribute('href');
-      window.api.navigate(page);
-    });
+  // Initialize glossary
+  updateGlossaryUI();
+
+  // Glossary collapse/expand
+  const toggleBtn = document.getElementById('toggleGlossary');
+  const glossaryContent = document.getElementById('glossaryContent');
+
+  toggleBtn.addEventListener('click', () => {
+    toggleBtn.classList.toggle('collapsed');
+    glossaryContent.classList.toggle('collapsed');
+    toggleBtn.textContent = toggleBtn.classList.contains('collapsed')
+      ? '▶'
+      : '▼';
   });
 
-  // Populate glossary
-  const glossaryDiv = document.getElementById('glossary');
-  Object.entries(glossary).forEach(([term, definition]) => {
-    const item = document.createElement('div');
-    item.className = 'glossary-item';
-    item.innerHTML = `
-      <span class="term">${term}</span>
-      <span class="definition">${definition}</span>
-    `;
-    glossaryDiv.appendChild(item);
+  // Glossary search
+  const searchInput = document.getElementById('glossarySearch');
+  searchInput.addEventListener('input', (e) => {
+    updateGlossaryUI(e.target.value);
   });
 
-  // Update the text simplification event listener
+  // Text simplification with tooltip highlighting
   document.getElementById('simplifyBtn').addEventListener('click', async () => {
     const inputText = document.getElementById('medicalInput').value;
     const result = await window.api.simplifyText(inputText);
-    
+
     if (result.success) {
       let text = result.simplified;
-      
-      // Improved term matching and tooltip creation
-      Object.entries(glossary).forEach(([term, definition]) => {
-        // Case insensitive global match
+
+      // Add tooltips for medical terms
+      glossaryTerms.forEach(({ term, definition }) => {
         const regex = new RegExp(`\\b${term}\\b`, 'gi');
-        text = text.replace(regex, (match) => 
-          `<span class="tooltip" title="${definition}">${match}</span>`
+        text = text.replace(
+          regex,
+          (match) =>
+            `<span class="tooltip" title="${definition}">${match}</span>`
         );
       });
-      
+
       document.getElementById('output').innerHTML = text;
     } else {
       document.getElementById('output').textContent = 'Error simplifying text.';

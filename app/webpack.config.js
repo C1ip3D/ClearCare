@@ -65,6 +65,21 @@ export default {
           },
         ],
       },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, 'src/css')],
+              },
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
