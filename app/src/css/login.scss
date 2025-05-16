@@ -1,5 +1,5 @@
 @use 'sass:color';
-@use './_theme' as *;
+@use '_theme' as *;
 
 body {
   font-family: $font-stack;
