@@ -156,20 +156,45 @@ ipcMain.handle('forgotPassword', async (event, email) => {
 
 ipcMain.handle('simplify-text', async (event, inputText) => {
   try {
+    // Input validation
+    if (!inputText || typeof inputText !== 'string') {
+      return { 
+        success: false, 
+        message: 'Please provide valid text to simplify'
+      };
+    }
+
     const completion = await openai.chat.completions.create({
       model: 'gpt-4',
       messages: [
         {
-          role: 'user',
-          content: `Simplify this medical explanation for a middle schooler:\n"${inputText}"`,
+          role: 'system',
+          content: 'You are an expert at explaining medical terms in simple language that a middle school student can understand. Include brief definitions for medical terms.'
         },
+        {
+          role: 'user',
+          content: `Simplify this medical text and define any medical terms used:\n${inputText}`
+        }
       ],
-      temperature: 0.7,
+      temperature: 0.5, // Reduced for more consistent outputs
+      max_tokens: 500,  // Limit response length
+      presence_penalty: 0.1, // Slight penalty for repetitive content
+      frequency_penalty: 0.1 // Slight penalty for repetitive terms
     });
 
-    return { success: true, simplified: completion.choices[0].message.content };
+    const simplified = completion.choices[0].message.content.trim();
+
+    return { 
+      success: true, 
+      simplified,
+      originalText: inputText 
+    };
+
   } catch (err) {
-    console.error('OpenAI error:', err);
-    return { success: false, message: 'Simplification failed' };
+    console.error('Text simplification error:', err);
+    return { 
+      success: false, 
+      message: 'Failed to simplify text. Please try again.' 
+    };
   }
 });
