@@ -8,31 +8,15 @@ import { register } from 'module';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const pageNames = ['login', 'register', 'forgot-password'];
 
 function generateEntries() {
   const baseEntry = {
     index: ['./src/scripts/index.js', './src/css/index.scss'],
   };
 
-  const additionalEntries = pageNames.reduce((entries, name) => {
-    if (fs.existsSync(`./src/scripts/${name}.js`)) {
-      entries[name] = [`./src/scripts/${name}.js`, `./src/css/${name}.scss`];
-    }
-    return entries;
-  }, {});
-
-  return { ...baseEntry, ...additionalEntries };
+  return { ...baseEntry };
 }
 
-const multipleHtmlPlugins = pageNames.map((name) => {
-  return new HtmlWebpackPlugin({
-    template: `./src/pages/${name}.html`,
-    filename: `${name}.html`,
-    chunks: [`${name}`],
-    inject: true,
-  });
-});
 
 export default {
   entry: generateEntries(),
@@ -75,11 +59,7 @@ export default {
       template: './src/pages/index.html',
       chunks: ['index'],
     }),
-  ].concat(multipleHtmlPlugins),
-  mode: 'development',
-  resolve: {
-    extensions: ['.js', '.sass', '.scss', '.css'],
-  },
+  ],
   watch: true,
   watchOptions: {
     ignored: /node_modules/,
