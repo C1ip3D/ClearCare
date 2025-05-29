@@ -1,9 +1,12 @@
+import { doc } from 'firebase/firestore';
 import '../css/index.scss';
 import medicalTerms from '../data/medicalTerms.json';
 
 let speechSynthesis = window.speechSynthesis;
 let currentUtterance = null;
 let glossaryTerms = medicalTerms.terms;
+
+let loadingInterval;
 
 function updateGlossaryUI(searchTerm = '') {
   const glossaryDiv = document.getElementById('glossary');
@@ -19,11 +22,22 @@ function updateGlossaryUI(searchTerm = '') {
       const termDiv = document.createElement('div');
       termDiv.className = 'glossary-item';
       termDiv.innerHTML = `
-        <span class="term">${item.term}</span>
-        <span class="definition">${item.definition}</span>
+        <span class="term">${item.term} </span>
+        <span class="definition">     ${item.definition}</span>
       `;
       glossaryDiv.appendChild(termDiv);
     });
+}
+
+function animateLoading(element) {
+  const loadingStates = ['Loading.', 'Loading..', 'Loading...'];
+  let currentIndex = 0;
+  
+  clearInterval(loadingInterval);
+  loadingInterval = setInterval(() => {
+    element.innerHTML = loadingStates[currentIndex];
+    currentIndex = (currentIndex + 1) % loadingStates.length;
+  }, 500);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -48,27 +62,33 @@ document.addEventListener('DOMContentLoaded', () => {
     updateGlossaryUI(e.target.value);
   });
 
-  // Text simplification with tooltip highlighting
+  // Text simplification
   document.getElementById('simplifyBtn').addEventListener('click', async () => {
+    const outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = 'Loading.';
+    animateLoading(outputDiv);
+    
     const inputText = document.getElementById('medicalInput').value;
     const result = await window.api.simplifyText(inputText);
 
+    clearInterval(loadingInterval);
+    
     if (result.success) {
-      let text = result.simplified;
+      const outputs = `${result.simplified}`
+      let text = outputs;
 
-      // Add tooltips for medical terms
-      glossaryTerms.forEach(({ term, definition }) => {
+      // Highlight medical terms
+      glossaryTerms.forEach(({ term }) => {
         const regex = new RegExp(`\\b${term}\\b`, 'gi');
         text = text.replace(
           regex,
-          (match) =>
-            `<span class="tooltip" title="${definition}">${match}</span>`
+          (match) => `<span class="highlighted-term">${match}</span>`
         );
       });
 
-      document.getElementById('output').innerHTML = text;
+      outputDiv.innerHTML = text;
     } else {
-      document.getElementById('output').textContent = 'Error simplifying text.';
+      outputDiv.textContent = 'Error simplifying text.';
     }
   });
 

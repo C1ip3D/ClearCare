@@ -169,11 +169,11 @@ ipcMain.handle('simplify-text', async (event, inputText) => {
       messages: [
         {
           role: 'system',
-          content: 'You are an expert at explaining medical terms in simple language that a middle school student can understand. Include brief definitions for medical terms.'
+          content: 'You are an expert at explaining medical terms in simple language that a middle school student can understand.',
         },
         {
           role: 'user',
-          content: `Simplify this medical text and define any medical terms used:\n${inputText}`
+          content: `Simplify this medical text and describe a disease or health issue the user may have, and follow up with brief tips and write each tip on a new line. Write in html format using <p> tags for the descriptions and <li> for the tips\n${inputText}.`
         }
       ],
       temperature: 0.5, // Reduced for more consistent outputs
