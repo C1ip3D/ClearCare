@@ -1,9 +1,8 @@
 {
   "name": "clearcare",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/scripts/server.js",
-  "type": "module",
+  "description": "ClearCare is a simple, user-friendly symptom checker that explains medical issues in plain language and offers easy-to-follow health tips.",
+  "main": "dist/server.js",
   "scripts": {
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production",
@@ -23,21 +22,22 @@
     "appId": "com.clearcare.app",
     "productName": "ClearCare",
     "directories": {
-      "output": "dist"
+      "output": "dist",
+      "buildResources": "build"
     },
     "extraResources": [
       {
-        "from": "node_modules/",
-        "to": "app/node_modules/"
+        "from": ".env.vault",
+        "to": ".env.vault"
       }
     ],
     "files": [
-      "**/*",
-      "!node_modules/**/*",
-      ".env"
+      "dist/**/*",
+      "package.json"
     ],
+    "asar": true,
     "asarUnpack": [
-      "node_modules"
+      "node_modules/**/*.node"
     ],
     "mac": {
       "target": [
@@ -48,6 +48,12 @@
       "gatekeeperAssess": false,
       "entitlements": "entitlements.mac.plist",
       "entitlementsInherit": "entitlements.mac.plist"
+    },
+    "protocols": {
+      "name": "clearcare-protocol",
+      "schemes": [
+        "clearcare"
+      ]
     }
   },
   "author": "Avaneesh Shetti & Aditya Vijey",
@@ -58,20 +64,32 @@
   "homepage": "https://github.com/C1ip3D/ClearCare#readme",
   "dependencies": {
     "babel-loader": "^10.0.0",
-    "electron": "^35.2.1",
     "firebase": "^11.6.1",
     "nodemon": "^3.1.10",
     "openai": "^4.98.0",
     "path": "^0.12.7",
-    "sass": "^1.87.0"
+    "sass": "^1.87.0",
+    "watcher": "^2.3.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.27.2",
     "css-loader": "^7.1.2",
     "dotenv": "^16.5.0",
+    "electron": "^36.3.2",
+    "electron-builder": "^26.0.12",
     "html-webpack-plugin": "^5.6.3",
     "mini-css-extract-plugin": "^2.9.2",
     "sass-loader": "^16.0.5",
     "webpack": "^5.99.7",
     "webpack-cli": "^6.0.1"
+  },
+  "optionalDependencies": {
+    "@parcel/watcher-darwin-arm64": "^2.1.0",
+    "@parcel/watcher-darwin-x64": "^2.1.0",
+    "@parcel/watcher-linux-arm-glibc": "^2.1.0",
+    "@parcel/watcher-linux-arm64-glibc": "^2.1.0",
+    "@parcel/watcher-linux-x64-glibc": "^2.1.0",
+    "@parcel/watcher-win32-arm64": "^2.1.0",
+    "@parcel/watcher-win32-x64": "^2.1.0"
   }
 }
