@@ -22,6 +22,7 @@
   "build": {
     "appId": "com.clearcare.app",
     "productName": "ClearCare",
+    "compression": "maximum",
 
     
     "directories": {
@@ -34,7 +35,9 @@
     },
     "mac": {
       "icon": "build/cc_mac.icns",
-      "category": "public.app-category.healthcare-fitness"
+      "category": "public.app-category.healthcare-fitness",
+      "target": "dmg",
+      "arch": ["x64"]
     },
 
     "extraResources": [
