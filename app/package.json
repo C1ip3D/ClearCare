@@ -9,7 +9,8 @@
     "app:node": "nodemon server.js",
     "app:watch": "webpack --watch",
     "app:electron": "electron .",
-    "app:package-mac": "electron-builder build --mac",
+    "app:package-mac-64": "electron-builder build --mac --x64",
+    "app:package-mac-arm": "electron-builder build --mac --arm64",
     "app:package-win": "electron-builder build --win",
     "app:package-linux": "electron-builder build --linux",
     "app:package-all": "electron-builder build -mwl",
@@ -36,8 +37,11 @@
     "mac": {
       "icon": "build/cc_mac.icns",
       "category": "public.app-category.healthcare-fitness",
-      "target": "dmg",
-      "arch": ["x64"]
+      "target": [
+        {
+          "target": "dmg"
+        }
+      ]
     },
 
     "extraResources": [
