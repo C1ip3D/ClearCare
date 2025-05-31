@@ -1,11 +1,7 @@
-import path from 'path';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const fs = require('fs');
 
 const mainConfig = {
   target: 'electron-main',
@@ -121,4 +117,4 @@ const rendererConfig = {
   },
 };
 
-export default [mainConfig, preloadConfig, rendererConfig];
+module.exports = [mainConfig, preloadConfig, rendererConfig];

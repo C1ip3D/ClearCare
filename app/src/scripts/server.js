@@ -62,20 +62,63 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
       preload: path.join(__dirname, '../scripts/functions.js'),
-      webSecurity: true,
+      webSecurity: false, // TEMP: disable for troubleshooting blocked:other
       spellcheck: false,
       autoplayPolicy: 'document-user-activation-required',
     },
     autoHideMenuBar: true,
   });
 
+  logger.warn('webSecurity is set to FALSE for troubleshooting. Do not use in production!');
+  logger.info('Electron __dirname:', __dirname);
+
   mainWindow.setMenu(null);
   mainWindow.maximize();
 
+  // Remove always open DevTools for production
+  // mainWindow.webContents.openDevTools();
+
+  // Only open DevTools in development
+  if (!app.isPackaged) {
+    mainWindow.webContents.openDevTools();
+  }
+
+  const fs = require('fs');
+
   if (app.isPackaged) {
-    mainWindow.loadFile(path.join(__dirname, '../index.html'));
+    // Try several possible locations for index.html
+    const possiblePaths = [
+      path.resolve(__dirname, 'index.html'),
+      path.resolve(__dirname, './dist/index.html'),
+      path.resolve(process.resourcesPath, 'app', 'dist', 'index.html'),
+      path.resolve(process.resourcesPath, 'app.asar', 'dist', 'index.html'),
+      path.resolve(process.resourcesPath, 'app', 'index.html'),
+      path.resolve(process.resourcesPath, 'index.html'),
+    ];
+    let foundPath = null;
+    for (const p of possiblePaths) {
+      logger.info('Checking for index.html at:', p);
+      if (fs.existsSync(p)) {
+        foundPath = p;
+        break;
+      }
+    }
+    if (!foundPath) {
+      logger.error('index.html not found in any known location!');
+      return;
+    }
+    logger.info('Loading production HTML:', foundPath);
+    try {
+      mainWindow.loadFile(foundPath);
+    } catch (e) {
+      logger.error('loadFile failed, trying loadURL:', e);
+      mainWindow.loadURL(`file://${foundPath}`);
+    }
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../../dist/index.html'));
+    // In development, server.js is in src/scripts, index.html is in src/pages
+    const devHtmlPath = path.resolve(__dirname, '../pages/index.html');
+    logger.info('Loading development HTML:', devHtmlPath);
+    mainWindow.loadFile(devHtmlPath);
   }
 
   if (!app.isPackaged) {
