@@ -10,7 +10,7 @@
     "app:watch": "webpack --watch",
     "app:electron": "electron .",
     "app:package-mac-64": "electron-builder build --mac --x64",
-    "app:package-mac-arm": "electron-builder build --mac --arm64",
+    "app:package-mac-arm": "npx electron-builder build --mac --arm64",
     "app:package-win": "electron-builder build --win",
     "app:package-linux": "electron-builder build --linux",
     "app:package-all": "electron-builder build -mwl",
@@ -24,13 +24,13 @@
     "appId": "com.clearcare.app",
     "productName": "ClearCare",
     "compression": "maximum",
-
-    
+    "removePackageScripts": true,
+    "removePackageKeywords": true,
+    "electronVersion": "36.3.2",
     "directories": {
       "output": "dist",
       "buildResources": "build"
     },
-    
     "win": {
       "icon": "build/cc_win.ico"
     },
@@ -39,11 +39,34 @@
       "category": "public.app-category.healthcare-fitness",
       "target": [
         {
-          "target": "dmg"
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
         }
-      ]
+      ],
+      "darkModeSupport": true
     },
-
+    "dmg": {
+      "title": "ClearCare",
+      "icon": "build/cc_mac.icns",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "window": {
+        "width": 540,
+        "height": 400
+      }
+    },
     "extraResources": [
       {
         "from": ".env.vault",
@@ -52,7 +75,15 @@
     ],
     "files": [
       "dist/**/*",
-      "package.json"
+      "package.json",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,Readme.md}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin",
+      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+      "!.editorconfig",
+      "!**/._*",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,package-lock.json}"
     ],
     "asar": true,
     "asarUnpack": [
@@ -73,7 +104,6 @@
   "homepage": "https://github.com/C1ip3D/ClearCare#readme",
   "dependencies": {
     "babel-loader": "^10.0.0",
-    "firebase": "^11.6.1",
     "nodemon": "^3.1.10",
     "openai": "^4.98.0",
     "path": "^0.12.7",
@@ -84,7 +114,7 @@
     "@babel/preset-env": "^7.27.2",
     "css-loader": "^7.1.2",
     "dotenv": "^16.5.0",
-    "electron": "^36.3.2",
+    "electron": "36.3.2",
     "electron-builder": "^26.0.12",
     "html-webpack-plugin": "^5.6.3",
     "mini-css-extract-plugin": "^2.9.2",
