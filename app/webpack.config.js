@@ -8,25 +8,21 @@ const mainConfig = {
   entry: './src/scripts/server.js',
   output: {
     filename: 'server.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/scripts'),
+  },
+  node: {
+    __dirname: false,
+    __filename: false,
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      }
-    ]
+        use: 'babel-loader',
+      },
+    ],
   },
-  externals: {
-    fsevents: "require('fsevents')"
-  }
 };
 
 const preloadConfig = {

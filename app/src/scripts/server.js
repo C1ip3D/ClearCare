@@ -25,31 +25,6 @@ const openai = new OpenAI({
     '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',
 });
 
-import { initializeApp } from 'firebase/app';
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from 'firebase/auth';
-import { getDatabase } from 'firebase/database';
-import { getFirestore } from 'firebase/firestore';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyBRfxzXK_YUobZ_y_BItGLW7873cQY98_s',
-  authDomain: 'clearcare-e970b.firebaseapp.com',
-  databaseURL: 'https://clearcare-e970b-default-rtdb.firebaseio.com',
-  projectId: 'clearcare-e970b',
-  storageBucket: 'clearcare-e970b.firebasestorage.app',
-  messagingSenderId: '655113682690',
-  appId: '1:655113682690:web:75165396850c7735ce0c1b',
-};
-
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const database = getDatabase(firebaseApp);
-const firestore = getFirestore(firebaseApp);
-
 const isDev = process.env.ENVIRONMENT !== 'production';
 
 // Electron setup

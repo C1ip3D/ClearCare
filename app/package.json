@@ -2,7 +2,7 @@
   "name": "clearcare",
   "version": "1.0.0",
   "description": "ClearCare is a simple, user-friendly symptom checker that explains medical issues in plain language and offers easy-to-follow health tips.",
-  "main": "dist/server.js",
+  "main": "dist/scripts/server.js",
   "scripts": {
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production",

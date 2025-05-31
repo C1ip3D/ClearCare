@@ -1,4 +1,3 @@
-import { doc } from 'firebase/firestore';
 import '../css/index.scss';
 import medicalTerms from '../data/medicalTerms.json';
 
