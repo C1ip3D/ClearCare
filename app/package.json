@@ -96,9 +96,6 @@
   "optionalDependencies": {
     "@parcel/watcher-darwin-arm64": "^2.1.0",
     "@parcel/watcher-darwin-x64": "^2.1.0",
-    "@parcel/watcher-linux-arm-glibc": "^2.1.0",
-    "@parcel/watcher-linux-arm64-glibc": "^2.1.0",
-    "@parcel/watcher-linux-x64-glibc": "^2.1.0",
     "@parcel/watcher-win32-arm64": "^2.1.0",
     "@parcel/watcher-win32-x64": "^2.1.0"
   }
